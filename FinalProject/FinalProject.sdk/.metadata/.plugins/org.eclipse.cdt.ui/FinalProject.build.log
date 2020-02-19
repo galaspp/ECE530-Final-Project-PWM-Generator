@@ -1,0 +1,21 @@
+08:13:42 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/main.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/main.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/main.d" -MT"src/main.d" -o "src/main.o" "../src/main.c"
+'Finished building: ../src/main.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63860	   2496	  22876	  89232	  15c90	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+
+08:13:43 Build Finished (took 771ms)
+

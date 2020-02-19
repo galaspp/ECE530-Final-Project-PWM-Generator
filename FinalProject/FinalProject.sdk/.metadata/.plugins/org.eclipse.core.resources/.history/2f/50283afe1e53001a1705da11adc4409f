@@ -1,0 +1,101 @@
+/*
+ * pwm.c
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: piotr
+ */
+
+#include "pwm.h"
+
+XGpio PWM_Data_One, PWM_Data_Two, PWM_Data_Three, PWM_ResetEnable_One, PWM_ResetEnable_Two, PWM_ResetEnable_Three;
+uint32_t channelOneFrequency, channelTwoFrequency, channelThreeFrequency;
+uint32_t channelOneDutyCycle, channelTwoDutyCycle, channelThreeDutyCycle;
+uint8_t LEDValue;
+bool ChannelOneEnable, ChannelTwoEnable, ChannelThreeEnable;
+
+int PWMInit(void)
+{
+	int Status;
+
+	ChannelOneEnable = false;
+	ChannelTwoEnable = false;
+	ChannelThreeEnable = false;
+
+	channelOneFrequency = 0;
+	channelTwoFrequency = 0;
+	channelThreeFrequency = 0;
+	channelOneDutyCycle = 0;
+	channelTwoDutyCycle = 0;
+	channelThreeDutyCycle = 0;
+	LEDValue = 0;
+
+	 //Channel One
+	Status = XGpio_Initialize(&PWM_Data_One, PWM_DATA_CHANNEL_ONE_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_Data_One, 1, 0x0000);  // Set pwm data direction to output
+	XGpio_SetDataDirection(&PWM_Data_One, 2, 0x0000);  // Set pwm data direction to output
+
+	Status = XGpio_Initialize(&PWM_ResetEnable_One, PWM_RESET_ENABLE_CHANNEL_ONE_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_ResetEnable_One, 1, 0x0);  // Set pwm Reset direction to output
+	XGpio_SetDataDirection(&PWM_ResetEnable_One, 2, 0x0);  // Set pwm Enable direction to output
+	XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x1);		// Set pwm Reset high
+	XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x0);		// Disable pwm
+
+	//Channel Two
+	Status = XGpio_Initialize(&PWM_Data_Two, PWM_DATA_CHANNEL_TWO_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_Data_Two, 1, 0x0000);  // Set pwm data direction to output
+	XGpio_SetDataDirection(&PWM_Data_Two, 2, 0x0000);  // Set pwm data direction to output
+
+	Status = XGpio_Initialize(&PWM_ResetEnable_Two, PWM_RESET_ENABLE_CHANNEL_TWO_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_ResetEnable_Two, 1, 0x0);  // Set pwm Reset direction to output
+	XGpio_SetDataDirection(&PWM_ResetEnable_Two, 2, 0x0);  // Set pwm Enable direction to output
+	XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x1);		// Set pwm Reset high
+	XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 2, 0x0);		// Disable pwm
+
+	//Channel Three
+	Status = XGpio_Initialize(&PWM_Data_Three, PWM_DATA_CHANNEL_THREE_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_Data_Three, 1, 0x0000);  // Set pwm data direction to output
+	XGpio_SetDataDirection(&PWM_Data_Three, 2, 0x0000);  // Set pwm data direction to output
+
+	Status = XGpio_Initialize(&PWM_ResetEnable_Three, PWM_RESET_ENABLE_CHANNEL_THREE_DEVICE_ID);
+	if(Status != XST_SUCCESS) return XST_FAILURE;
+	XGpio_SetDataDirection(&PWM_ResetEnable_Three, 1, 0x0);  // Set pwm Reset direction to output
+	XGpio_SetDataDirection(&PWM_ResetEnable_Three, 2, 0x0);  // Set pwm Enable direction to output
+	XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x1);		// Set pwm Reset high
+	XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 2, 0x0);		// Disable pwm
+
+}
+
+void enableChannel(XGpio *LEDInst, uint8_t *buffer)
+{
+	if(buffer[1] == 0x31)
+	{
+		LEDValue = LEDValue | 0x01;
+		ChannelOneEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x1);		// Enable pwm
+	}
+	if(buffer[1] == 0x32)
+	{
+		LEDValue = LEDValue | 0x02;
+		ChannelTwoEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 2, 0x1);		// Enable pwm
+	}
+	if(buffer[1] == 0x33)
+	{
+		LEDValue = LEDValue | 0x04;
+		ChannelThreeEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x0);		// Set pwm Reset low
+	    XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 2, 0x1);		// Enable pwm
+	}
+
+	buffer[1] = 0;
+}

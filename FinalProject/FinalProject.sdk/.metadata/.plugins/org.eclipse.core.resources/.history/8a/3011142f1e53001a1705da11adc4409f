@@ -1,0 +1,57 @@
+/*
+ * pwm.c
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: piotr
+ */
+
+#include "pwm.h"
+
+uint32_t channelOneFrequency, channelTwoFrequency, channelThreeFrequency;
+uint32_t channelOneDutyCycle, channelTwoDutyCycle, channelThreeDutyCycle;
+bool ChannelOneEnable, ChannelTwoEnable, ChannelThreeEnable;
+
+void PWMInit(void)
+{
+	ChannelOneEnable = false;
+	ChannelTwoEnable = false;
+	ChannelThreeEnable = false;
+
+	channelOneFrequency = 0;
+	channelTwoFrequency = 0;
+	channelThreeFrequency = 0;
+	channelOneDutyCycle = 0;
+	channelTwoDutyCycle = 0;
+	channelThreeDutyCycle = 0;
+
+}
+
+void enableChannel(uint8_t *buffer)
+{
+	if(buffer[1] == 0x31)
+	{
+		LEDValue = LEDValue | 0x01;
+		ChannelOneEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x1);		// Enable pwm
+	}
+	if(buffer[1] == 0x32)
+	{
+		LEDValue = LEDValue | 0x02;
+		ChannelTwoEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 2, 0x1);		// Enable pwm
+	}
+	if(buffer[1] == 0x33)
+	{
+		LEDValue = LEDValue | 0x04;
+		ChannelThreeEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x0);		// Set pwm Reset low
+	    XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 2, 0x1);		// Enable pwm
+	}
+
+	buffer[1] = 0;
+}

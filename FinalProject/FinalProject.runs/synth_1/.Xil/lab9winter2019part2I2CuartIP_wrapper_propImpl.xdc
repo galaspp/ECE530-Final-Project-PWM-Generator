@@ -1,0 +1,12 @@
+set_property SRC_FILE_INFO {cfile:c:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.srcs/sources_1/bd/lab9winter2019part2I2CuartIP/ip/lab9winter2019part2I2CuartIP_processing_system7_0_0/lab9winter2019part2I2CuartIP_processing_system7_0_0.xdc rfile:../../../FinalProject.srcs/sources_1/bd/lab9winter2019part2I2CuartIP/ip/lab9winter2019part2I2CuartIP_processing_system7_0_0/lab9winter2019part2I2CuartIP_processing_system7_0_0.xdc id:1 order:EARLY scoped_inst:lab9winter2019part2I2CuartIP_i/processing_system7_0/inst} [current_design]
+set_property SRC_FILE_INFO {cfile:C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.srcs/constrs_1/new/lab9winter2019part2I2CuartIP.xdc rfile:../../../FinalProject.srcs/constrs_1/new/lab9winter2019part2I2CuartIP.xdc id:2} [current_design]
+set_property src_info {type:SCOPED_XDC file:1 line:21 export:INPUT save:INPUT read:READ} [current_design]
+set_input_jitter clk_fpga_0 0.3
+set_property src_info {type:XDC file:2 line:1 export:INPUT save:INPUT read:READ} [current_design]
+set_property IOSTANDARD LVCMOS33 [get_ports iic_1_scl_io]
+set_property src_info {type:XDC file:2 line:2 export:INPUT save:INPUT read:READ} [current_design]
+set_property IOSTANDARD LVCMOS33 [get_ports iic_1_sda_io]
+set_property src_info {type:XDC file:2 line:3 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN V20 [get_ports iic_1_scl_io]
+set_property src_info {type:XDC file:2 line:4 export:INPUT save:INPUT read:READ} [current_design]
+set_property PACKAGE_PIN W20 [get_ports iic_1_sda_io]

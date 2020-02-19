@@ -1,0 +1,43 @@
+/*
+ * pwm.h
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: piotr
+ */
+
+#ifndef PWM_H_
+#define PWM_H_
+
+
+#include <xparameters.h>
+#include "xil_printf.h"
+#include "xgpio.h"
+#include "stdio.h"
+#include "stdbool.h"
+#include "stdint.h"
+#include "string.h"
+
+
+#define S 0x53
+#define P 0x50
+#define F 0x46
+#define E 0x45
+#define D 0x44
+#define ONE 0x31
+#define TWO 0x32
+#define THREE 0x33
+
+#define PWM_DATA_CHANNEL_ONE_DEVICE_ID				XPAR_GPIO_6_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_ONE_DEVICE_ID		XPAR_GPIO_7_DEVICE_ID
+#define PWM_DATA_CHANNEL_TWO_DEVICE_ID				XPAR_GPIO_8_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_TWO_DEVICE_ID		XPAR_GPIO_9_DEVICE_ID
+#define PWM_DATA_CHANNEL_THREE_DEVICE_ID			XPAR_GPIO_10_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_THREE_DEVICE_ID	XPAR_GPIO_2_DEVICE_ID
+
+
+int PWMInit(void);
+
+void enableChannel(XGpio *LEDInst, uint8_t *buffer);
+
+
+#endif /* PWM_H_ */

@@ -1,0 +1,16 @@
+/*
+ * pwm.c
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: piotr
+ */
+
+uint32_t channelOneFrequency, channelTwoFrequency, channelThreeFrequency;
+uint32_t channelOneDutyCycle, channelTwoDutyCycle, channelThreeDutyCycle;
+bool ChannelOneEnable, ChannelTwoEnable, ChannelThreeEnable;
+
+void PWMInit(void)
+{
+
+}
+

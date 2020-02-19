@@ -1,0 +1,350 @@
+/*
+ * main.c
+ *
+ *  Created on: Feb 10, 2020
+ *      Author: piotr
+ */
+
+#include <xparameters.h>
+#include "xil_printf.h"
+#include "xgpio.h"
+#include "stdio.h"
+#include "stdbool.h"
+#include "stdint.h"
+#include "string.h"
+#include "stdlib.h"
+
+#define S 0x53
+#define P 0x50
+#define F 0x46
+#define E 0x45
+#define D 0x44
+#define ONE 0x31
+#define TWO 0x32
+#define THREE 0x33
+#define LEDS_DEVICE_ID								XPAR_GPIO_0_DEVICE_ID
+#define UART_TX_DEVICE_ID							XPAR_GPIO_1_DEVICE_ID
+#define UART_TX_FULL_ID								XPAR_GPIO_2_DEVICE_ID
+#define UART_RX_DEVICE_ID							XPAR_GPIO_3_DEVICE_ID
+#define UART_RX_DATA_PRESENT_DEVICE_ID				XPAR_GPIO_4_DEVICE_ID
+#define PWM_DATA_CHANNEL_ONE_DEVICE_ID				XPAR_GPIO_5_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_ONE_DEVICE_ID		XPAR_GPIO_6_DEVICE_ID
+#define PWM_DATA_CHANNEL_TWO_DEVICE_ID				XPAR_GPIO_7_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_TWO_DEVICE_ID		XPAR_GPIO_8_DEVICE_ID
+#define PWM_DATA_CHANNEL_THREE_DEVICE_ID			XPAR_GPIO_9_DEVICE_ID
+#define PWM_RESET_ENABLE_CHANNEL_THREE_DEVICE_ID	XPAR_GPIO_10_DEVICE_ID
+
+
+XGpio LEDInst, uart_tx, uart_rx, uart_tx_full, uart_rx_data_present, PWM_Data_One, PWM_Data_Two, PWM_Data_Three, PWM_ResetEnable_One, PWM_ResetEnable_Two, PWM_ResetEnable_Three;
+bool ChannelOneEnable, ChannelTwoEnable, ChannelThreeEnable;
+uint8_t LEDValue, readrx, dutyCycleLocation;
+uint32_t channelOneFrequency, channelTwoFrequency, channelThreeFrequency;
+uint32_t channelOneDutyCycle, channelTwoDutyCycle, channelThreeDutyCycle;
+
+int initialize(void)
+{
+	int Status;
+
+	Status = XGpio_Initialize(&LEDInst, LEDS_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&LEDInst, 1, 0x00);  // Set LEDs direction to output
+    XGpio_DiscreteWrite(&LEDInst, 1, 0x00);
+
+    Status = XGpio_Initialize(&uart_tx, UART_TX_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&uart_tx, 1, 0x00);	 // Set UART_TX_DATA direction to output
+    XGpio_SetDataDirection(&uart_tx, 2, 0x00);	 // Set WRITE_TO_UART direction to output
+
+    Status = XGpio_Initialize(&uart_tx_full, UART_TX_FULL_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&uart_tx_full, 1, 0xFF); 	 // Set TX_FULL direction to input
+
+    Status = XGpio_Initialize(&uart_rx, UART_RX_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&uart_rx, 1, 0xFF);	 // Set UART_RX direction to input
+    XGpio_SetDataDirection(&uart_rx, 2, 0x00);	 // Set READ_FROM_UART direction to output
+
+    Status = XGpio_Initialize(&uart_rx_data_present, UART_RX_DATA_PRESENT_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&uart_rx_data_present, 1, 0xFF);	 // Set RX_DATA_PRESENT direction to input
+
+    //Channel One
+    Status = XGpio_Initialize(&PWM_Data_One, PWM_DATA_CHANNEL_ONE_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_Data_One, 1, 0x0000);  // Set pwm data direction to output
+    XGpio_SetDataDirection(&PWM_Data_One, 2, 0x0000);  // Set pwm data direction to output
+
+    Status = XGpio_Initialize(&PWM_ResetEnable_One, PWM_RESET_ENABLE_CHANNEL_ONE_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_ResetEnable_One, 1, 0x0);  // Set pwm Reset direction to output
+    XGpio_SetDataDirection(&PWM_ResetEnable_One, 2, 0x0);  // Set pwm Enable direction to output
+    XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x1);		// Set pwm Reset high
+    XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x0);		// Disable pwm
+
+    //Channel Two
+    Status = XGpio_Initialize(&PWM_Data_Two, PWM_DATA_CHANNEL_TWO_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_Data_Two, 1, 0x0000);  // Set pwm data direction to output
+    XGpio_SetDataDirection(&PWM_Data_Two, 2, 0x0000);  // Set pwm data direction to output
+
+    Status = XGpio_Initialize(&PWM_ResetEnable_Two, PWM_RESET_ENABLE_CHANNEL_TWO_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_ResetEnable_Two, 1, 0x0);  // Set pwm Reset direction to output
+    XGpio_SetDataDirection(&PWM_ResetEnable_Two, 2, 0x0);  // Set pwm Enable direction to output
+    XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x1);		// Set pwm Reset high
+    XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 2, 0x0);		// Disable pwm
+
+    //Channel Three
+    Status = XGpio_Initialize(&PWM_Data_Three, PWM_DATA_CHANNEL_THREE_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_Data_Three, 1, 0x0000);  // Set pwm data direction to output
+    XGpio_SetDataDirection(&PWM_Data_Three, 2, 0x0000);  // Set pwm data direction to output
+
+    Status = XGpio_Initialize(&PWM_ResetEnable_Three, PWM_RESET_ENABLE_CHANNEL_THREE_DEVICE_ID);
+    if(Status != XST_SUCCESS) return XST_FAILURE;
+    XGpio_SetDataDirection(&PWM_ResetEnable_Three, 1, 0x0);  // Set pwm Reset direction to output
+    XGpio_SetDataDirection(&PWM_ResetEnable_Three, 2, 0x0);  // Set pwm Enable direction to output
+    XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x1);		// Set pwm Reset high
+    XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 2, 0x0);		// Disable pwm
+
+    return Status;
+}
+
+void enableChannel(uint8_t *buffer)
+{
+	if(buffer[1] == 0x31)
+	{
+		LEDValue = LEDValue | 0x01;
+		ChannelOneEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x1);		// Enable pwm
+
+	}
+	if(buffer[1] == 0x32)
+	{
+		LEDValue = LEDValue | 0x02;
+		ChannelTwoEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+	}
+	if(buffer[1] == 0x33)
+	{
+		LEDValue = LEDValue | 0x04;
+		ChannelThreeEnable = true;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+	}
+
+	buffer[1] = 0;
+}
+
+void disableChannel(uint8_t *buffer)
+{
+	if(buffer[1] == ONE)
+	{
+		LEDValue = LEDValue - 0x01;
+		ChannelOneEnable = false;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x0);		// Disable pwm
+	}
+	if(buffer[1] == TWO)
+	{
+		LEDValue = LEDValue - 0x02;
+		ChannelTwoEnable = false;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+	}
+	if(buffer[1] == THREE)
+	{
+		LEDValue = LEDValue - 0x04;
+		ChannelThreeEnable = false;
+		XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+	}
+
+	buffer[1] = 0;
+}
+
+uint32_t str2int(const uint8_t* str, int len)
+{
+    int i;
+    uint32_t ret = 0;
+    for(i = 0; i < len; ++i)
+    {
+        ret = ret * 10 + (str[i] - '0');
+    }
+    return ret;
+}
+
+void setChannelFrequency(uint8_t *buffer)
+{
+	int i;
+	uint8_t charactersOfFreq[10];
+	if(buffer[1] == ONE && ChannelOneEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S){
+				dutyCycleLocation = i + 1;
+				break;
+			}
+			charactersOfFreq[i-2] = buffer[i];
+		}
+		channelOneFrequency = str2int(charactersOfFreq, i-2);
+		channelOneFrequency = 100000000/channelOneFrequency;
+	}
+	if(buffer[1] == TWO && ChannelTwoEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S){
+				dutyCycleLocation = i + 1;
+				break;
+			}
+			charactersOfFreq[i-2] = buffer[i];
+		}
+		channelTwoFrequency = str2int(charactersOfFreq, i-2);
+	}
+	if(buffer[1] == THREE && ChannelThreeEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S){
+				dutyCycleLocation = i + 1;
+				break;
+			}
+			charactersOfFreq[i-2] = buffer[i];
+		}
+		channelThreeFrequency = str2int(charactersOfFreq, i-2);
+	}
+}
+
+void setChannelDutyCycle(uint8_t *buffer)
+{
+	int i;
+	uint8_t charactersOfDuty[10];
+	if(buffer[1] == ONE && ChannelOneEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S) break;
+			charactersOfDuty[i-2] = buffer[i];
+		}
+		channelOneDutyCycle = str2int(charactersOfDuty, i-2);
+		channelOneDutyCycle = channelOneFrequency * channelOneDutyCycle / 100;
+	}
+	if(buffer[1] == TWO && ChannelTwoEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S) break;
+			charactersOfDuty[i-2] = buffer[i];
+		}
+		channelTwoDutyCycle = str2int(charactersOfDuty, i-2);
+	}
+	if(buffer[1] == THREE && ChannelThreeEnable == true)
+	{
+		for(i = 2; i < 50; i++)
+		{
+			if(buffer[i] == S) break;
+			charactersOfDuty[i-2] = buffer[i];
+		}
+		channelThreeDutyCycle = str2int(charactersOfDuty, i-2);
+	}
+}
+
+void print_message(char *message)
+{
+	unsigned char count;
+	count = 0;
+	for(count = 0; count < strlen(message); count++){
+		while(XGpio_DiscreteRead(&uart_tx_full, 1)==1);
+		XGpio_DiscreteWrite(&uart_tx, 1, message[count]);
+		XGpio_DiscreteWrite(&uart_tx, 2, 1);
+		XGpio_DiscreteWrite(&uart_tx, 2, 0);
+	}
+}
+
+void delay(void)
+{
+	int j = 0;
+	for(j=0; j<60000; ++j);
+}
+
+int main(void)
+{
+	int Status, i;
+	uint8_t inputBuffer[100];
+	char value;
+
+	Status = initialize();
+
+	ChannelOneEnable = false;
+	ChannelTwoEnable = false;
+	ChannelThreeEnable = false;
+	LEDValue = 0x00;
+	i = 0;
+	channelOneFrequency = 0;
+	channelOneDutyCycle = 0;
+
+	if(Status != XST_SUCCESS)
+	{
+		printf("Failed to initialize io");
+		return XST_FAILURE;
+	}
+
+	while(1)
+	{
+		if(channelThreeDutyCycle >= 50)
+		{
+			LEDValue = LEDValue | 0x08;
+			XGpio_DiscreteWrite(&LEDInst, 1, LEDValue);
+		}
+
+		while(value == 0)
+			value = XGpio_DiscreteRead(&uart_rx_data_present, 1);
+		while(value == 1)
+		{
+			delay();
+			XGpio_DiscreteWrite(&uart_rx, 2, 1);
+			XGpio_DiscreteWrite(&uart_rx, 2, 0);
+			inputBuffer[i] = XGpio_DiscreteRead(&uart_rx, 1);
+			i++;
+			value = XGpio_DiscreteRead(&uart_rx_data_present, 1);
+		}
+
+		if(inputBuffer[0] == E)
+		{
+			enableChannel(inputBuffer);
+		}
+		if(inputBuffer[0] == D)
+		{
+			disableChannel(inputBuffer);
+		}
+		if(inputBuffer[0] == F)
+		{
+			setChannelFrequency(inputBuffer);
+		}
+		if(inputBuffer[0] == P)
+		{
+			setChannelDutyCycle(inputBuffer);
+		}
+
+		if(ChannelOneEnable)
+		{
+			XGpio_DiscreteWrite(&PWM_Data_One, 1, channelOneFrequency);
+			XGpio_DiscreteWrite(&PWM_Data_One, 2, channelOneDutyCycle);
+		}
+		if(ChannelTwoEnable)
+		{
+			XGpio_DiscreteWrite(&PWM_Data_Two, 1, channelTwoFrequency);
+			XGpio_DiscreteWrite(&PWM_Data_Two, 2, channelTwoDutyCycle);
+		}
+		if(ChannelThreeEnable)
+		{
+			XGpio_DiscreteWrite(&PWM_Data_Two, 1, channelThreeFrequency);
+			XGpio_DiscreteWrite(&PWM_Data_Two, 2, channelThreeDutyCycle);
+		}
+		value = 0;
+		i = 0;
+	}
+}
+

@@ -1,0 +1,10 @@
+#-----------------------------------------------------------
+# Vivado v2015.2 (64-bit)
+# SW Build 1266856 on Fri Jun 26 16:35:25 MDT 2015
+# IP Build 1264090 on Wed Jun 24 14:22:01 MDT 2015
+# Start of session at: Tue Feb 18 19:13:26 2020
+# Process ID: 23972
+# Log file: C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.runs/impl_1/lab9winter2019part2I2CuartIP_wrapper.vdi
+# Journal file: C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source lab9winter2019part2I2CuartIP_wrapper.tcl -notrace

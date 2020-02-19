@@ -1,0 +1,22 @@
+/*
+ * pwm.h
+ *
+ *  Created on: Feb 19, 2020
+ *      Author: piotr
+ */
+
+#ifndef PWM_H_
+#define PWM_H_
+
+#define S 0x53
+#define P 0x50
+#define F 0x46
+#define E 0x45
+#define D 0x44
+#define ONE 0x31
+#define TWO 0x32
+#define THREE 0x33
+
+
+
+#endif /* PWM_H_ */
