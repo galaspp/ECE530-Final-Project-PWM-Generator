@@ -138,8 +138,12 @@ def submitCallBack():
 	else:
 		UARTBaudRate = baudEntry.get()
 		COMPort = COMOptionDropDown.get()
+		try:
+			ser = serial.Serial(COMPort, UARTBaudRate, timeout=10)
+		except(serial.SerialException):
+			tkMessageBox.showerror('Error', 'Cannot connect to COM Port: Timeout')
+			return
 		startRoot.destroy()
-		ser = serial.Serial(COMPort, UARTBaudRate, timeout=10)
 		GUIScreen()
 
 def startScreen():

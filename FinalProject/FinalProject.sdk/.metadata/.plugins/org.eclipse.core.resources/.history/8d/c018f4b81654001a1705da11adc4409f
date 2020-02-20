@@ -224,19 +224,16 @@ void setChannelData(void)
 {
 	if(ChannelOneEnable)
 	{
-		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_One, 1, channelOneFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_One, 2, channelOneDutyCycle);
 	}
 	if(ChannelTwoEnable)
 	{
-		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_Two, 1, channelTwoFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_Two, 2, channelTwoDutyCycle);
 	}
 	if(ChannelThreeEnable)
 	{
-		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_Three, 1, channelThreeFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_Three, 2, channelThreeDutyCycle);
 	}

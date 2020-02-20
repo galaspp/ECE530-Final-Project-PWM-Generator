@@ -116,7 +116,7 @@ void disableChannel(XGpio *LEDInst, uint8_t *buffer)
 		LEDValue = LEDValue - 0x01;
 		ChannelOneEnable = false;
 		XGpio_DiscreteWrite(LEDInst, 1, LEDValue);
-		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x1);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 2, 0x0);		// Disable pwm
 	}
 	if(buffer[1] == TWO)
@@ -124,7 +124,7 @@ void disableChannel(XGpio *LEDInst, uint8_t *buffer)
 		LEDValue = LEDValue - 0x02;
 		ChannelTwoEnable = false;
 		XGpio_DiscreteWrite(LEDInst, 1, LEDValue);
-		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x1);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 2, 0x0);		// Disable pwm
 	}
 	if(buffer[1] == THREE)
@@ -132,7 +132,7 @@ void disableChannel(XGpio *LEDInst, uint8_t *buffer)
 		LEDValue = LEDValue - 0x04;
 		ChannelThreeEnable = false;
 		XGpio_DiscreteWrite(LEDInst, 1, LEDValue);
-		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x0);		// Set pwm Reset low
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x1);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 2, 0x0);		// Disable pwm
 	}
 
@@ -152,6 +152,7 @@ void setChannelFrequency(uint8_t *buffer)
 			}
 			charactersOfFreq[i-2] = buffer[i];
 		}
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x1);		// Set pwm Reset low
 		channelOneFrequency = str2int(charactersOfFreq, i-2);
 		channelOneFrequency = 100000000/channelOneFrequency;
 	}
@@ -164,6 +165,7 @@ void setChannelFrequency(uint8_t *buffer)
 			}
 			charactersOfFreq[i-2] = buffer[i];
 		}
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x1);		// Set pwm Reset low
 		channelTwoFrequency = str2int(charactersOfFreq, i-2);
 		channelTwoFrequency = 100000000/channelTwoFrequency;
 	}
@@ -176,6 +178,7 @@ void setChannelFrequency(uint8_t *buffer)
 			}
 			charactersOfFreq[i-2] = buffer[i];
 		}
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x1);		// Set pwm Reset low
 		channelThreeFrequency = str2int(charactersOfFreq, i-2);
 		channelThreeFrequency = 100000000/channelThreeFrequency;
 	}
@@ -221,20 +224,24 @@ void setChannelData(void)
 {
 	if(ChannelOneEnable)
 	{
+		XGpio_DiscreteWrite(&PWM_ResetEnable_One, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_One, 1, channelOneFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_One, 2, channelOneDutyCycle);
 	}
 	if(ChannelTwoEnable)
 	{
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Two, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_Two, 1, channelTwoFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_Two, 2, channelTwoDutyCycle);
 	}
 	if(ChannelThreeEnable)
 	{
+		XGpio_DiscreteWrite(&PWM_ResetEnable_Three, 1, 0x0);		// Set pwm Reset low
 		XGpio_DiscreteWrite(&PWM_Data_Three, 1, channelThreeFrequency);
 		XGpio_DiscreteWrite(&PWM_Data_Three, 2, channelThreeDutyCycle);
 	}
 }
+
 uint32_t str2int(const uint8_t* str, int len)
 {
     int i;

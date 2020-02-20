@@ -2008,3 +2008,114 @@ arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
   63860	   2496	  22876	  89232	  15c90	FinalProject.elf
 'Finished building: FinalProject.elf.size'
 ' '
+12:46:47 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+12:48:39 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/pwm.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/pwm.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/pwm.d" -MT"src/pwm.d" -o "src/pwm.o" "../src/pwm.c"
+'Finished building: ../src/pwm.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63860	   2496	  22876	  89232	  15c90	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+13:02:10 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+13:09:33 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+13:10:59 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+13:11:52 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+13:23:45 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/pwm.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/pwm.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/pwm.d" -MT"src/pwm.d" -o "src/pwm.o" "../src/pwm.c"
+'Finished building: ../src/pwm.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63860	   2496	  22876	  89232	  15c90	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+13:24:18 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/pwm.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/pwm.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/pwm.d" -MT"src/pwm.d" -o "src/pwm.o" "../src/pwm.c"
+'Finished building: ../src/pwm.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63860	   2496	  22876	  89232	  15c90	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+13:24:56 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/pwm.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/pwm.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/pwm.d" -MT"src/pwm.d" -o "src/pwm.o" "../src/pwm.c"
+'Finished building: ../src/pwm.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63924	   2496	  22876	  89296	  15cd0	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+13:25:15 **** Auto Build of configuration Debug for project FinalProject ****
+make all 
+'Building file: ../src/pwm.c'
+'Invoking: ARM gcc compiler'
+arm-xilinx-eabi-gcc -Wall -O0 -g3 -c -fmessage-length=0 -MT"src/pwm.o" -I../../FinalProject_bsp/ps7_cortexa9_0/include -MMD -MP -MF"src/pwm.d" -MT"src/pwm.d" -o "src/pwm.o" "../src/pwm.c"
+'Finished building: ../src/pwm.c'
+' '
+'Building target: FinalProject.elf'
+'Invoking: ARM gcc linker'
+arm-xilinx-eabi-gcc -Wl,-T -Wl,../src/lscript.ld -L../../FinalProject_bsp/ps7_cortexa9_0/lib -o "FinalProject.elf"  ./src/main.o ./src/pwm.o   -Wl,--start-group,-lxil,-lgcc,-lc,--end-group
+'Finished building target: FinalProject.elf'
+' '
+'Invoking: ARM Print Size'
+arm-xilinx-eabi-size FinalProject.elf  |tee "FinalProject.elf.size"
+   text	   data	    bss	    dec	    hex	filename
+  63988	   2496	  22876	  89360	  15d10	FinalProject.elf
+'Finished building: FinalProject.elf.size'
+' '
+13:25:25 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.
+13:37:57 **** Incremental Build of configuration Debug for project FinalProject ****
+make all 
+make: Nothing to be done for `all'.

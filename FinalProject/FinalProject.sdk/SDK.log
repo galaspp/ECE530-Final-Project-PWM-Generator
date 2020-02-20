@@ -68,3 +68,47 @@ com.xilinx.sdk.targetmanager.TMException: Connection to Board Failed
 19:38:46 INFO  : Processor reset is completed for ps7_cortexa9_0
 19:39:07 INFO  : ps7_cortexa9_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
 19:39:09 INFO  : Processor reset is completed for ps7_cortexa9_0
+12:46:35 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+12:46:35 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zybo 210279758982A" && level==0} -index 1' command is executed.
+12:46:37 INFO  : FPGA configured successfully with bitstream "C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.sdk/lab9winter2019part2I2CuartIP_wrapper_hw_platform_0/lab9winter2019part2I2CuartIP_wrapper.bit"
+12:46:48 INFO  : ps7_init is completed.
+12:46:49 INFO  : ps7_post_config is completed.
+12:46:49 INFO  : Processor reset is completed for ps7_cortexa9_0
+13:01:58 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+13:01:59 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zybo 210279758982A" && level==0} -index 1' command is executed.
+13:02:00 INFO  : FPGA configured successfully with bitstream "C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.sdk/lab9winter2019part2I2CuartIP_wrapper_hw_platform_0/lab9winter2019part2I2CuartIP_wrapper.bit"
+13:02:12 INFO  : ps7_init is completed.
+13:02:12 INFO  : ps7_post_config is completed.
+13:02:12 INFO  : Processor reset is completed for ps7_cortexa9_0
+13:09:34 INFO  : ps7_cortexa9_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+13:09:36 INFO  : Processor reset is completed for ps7_cortexa9_0
+13:10:50 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+13:10:51 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zybo 210279758982A" && level==0} -index 1' command is executed.
+13:10:52 INFO  : FPGA configured successfully with bitstream "C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.sdk/lab9winter2019part2I2CuartIP_wrapper_hw_platform_0/lab9winter2019part2I2CuartIP_wrapper.bit"
+13:10:59 INFO  : ps7_cortexa9_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+13:11:09 ERROR : Unexpected error while launching program.
+java.lang.RuntimeException: Error in Resetting Target
+
+    Could not stop the processor after reset
+
+
+	at com.xilinx.sdk.targetmanager.internal.TM.doProcessorReset(TM.java:995)
+	at com.xilinx.sdk.debug.core.XilinxAppLaunchConfigurationDelegate.runTargetSetup(XilinxAppLaunchConfigurationDelegate.java:506)
+	at com.xilinx.sdk.debug.core.XilinxAppLaunchConfigurationDelegate.runApplication(XilinxAppLaunchConfigurationDelegate.java:588)
+	at com.xilinx.sdk.debug.core.XilinxAppLaunchConfigurationDelegate.launch(XilinxAppLaunchConfigurationDelegate.java:296)
+	at com.xilinx.sdk.debug.ui.XilinxAppLaunchDelegateWrapper.launch(XilinxAppLaunchDelegateWrapper.java:31)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:858)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:707)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1018)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1222)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+13:11:45 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+13:11:45 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Zybo 210279758982A" && level==0} -index 1' command is executed.
+13:11:46 INFO  : FPGA configured successfully with bitstream "C:/xup/embedded/2015_2_zynq_labs/FinalProject/FinalProject.sdk/lab9winter2019part2I2CuartIP_wrapper_hw_platform_0/lab9winter2019part2I2CuartIP_wrapper.bit"
+13:11:54 INFO  : ps7_init is completed.
+13:11:54 INFO  : ps7_post_config is completed.
+13:11:54 INFO  : Processor reset is completed for ps7_cortexa9_0
+13:25:25 INFO  : ps7_cortexa9_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+13:25:41 INFO  : Processor reset is completed for ps7_cortexa9_0
+13:37:58 INFO  : ps7_cortexa9_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+13:38:00 INFO  : Processor reset is completed for ps7_cortexa9_0
